@@ -1,3 +1,4 @@
+version: "3.8"
 services:
   fluentbit:
     image: fluent/fluent-bit:1.7
@@ -6,9 +7,11 @@ services:
       - "24224:24224/udp"
     networks:
       - fluentnet
-    restart: always  # Ensures it stays up
+    restart: always  
 
   app:
+    image: alpine  # ADD THIS
+    command: ["/bin/echo", "Listen my log!"]
     depends_on:
       - fluentbit
     logging:

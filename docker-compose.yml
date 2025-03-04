@@ -17,7 +17,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: "localhost:24224"  # <--- Change from "fluentbit" to "localhost"
+        fluentd-address: "fluentbit:24224"  # <-- Changed from localhost to fluentbit
         tag: "app"
     networks:
       - fluentnet

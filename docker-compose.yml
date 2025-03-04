@@ -6,7 +6,7 @@ services:
       - "24224:24224"
       - "24224:24224/udp"
     networks:
-      - fluentnet  # <-- Using bridge network for fluentbit
+      - fluentnet  # <-- Use bridge network for fluentbit
     restart: always  
 
   app:
@@ -17,10 +17,10 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: "fluentbit:24224"  # <-- Use fluentbit as hostname
+        fluentd-address: "fluentbit:24224"  # <-- Use fluentbit as the service name here
         tag: "app"
     networks:
-      - fluentnet  # <-- Using bridge network for app
+      - fluentnet  # <-- Use bridge network for app
 
 networks:
   fluentnet:

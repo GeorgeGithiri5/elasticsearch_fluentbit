@@ -5,7 +5,7 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
-    network_mode: host  # <-- Set host network mode
+    network_mode: host  # <-- Use host network mode for fluentbit
     restart: always  
 
   app:
@@ -16,10 +16,10 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: "localhost:24224"  # <-- Use localhost when in host network mode
+        fluentd-address: "localhost:24224"  # <-- Use localhost to avoid IPv6 binding
         tag: "app"
-    network_mode: host  # <-- Set host network mode
+    network_mode: host  # <-- Use host network mode for app
 
 networks:
   fluentnet:
-    driver: bridge  # No need for networks section if using host mode
+    driver: bridge  # <-- Remove this as we are using host mode

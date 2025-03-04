@@ -11,15 +11,25 @@ services:
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
     environment:
       - HOSTNAME=fluentbit
-    restart: always  # Ensures Fluent Bit restarts if it crashes
+    networks:
+      fluentnet:
+        aliases:
+          - fluentbit  # Ensures this hostname is always available
+    restart: always
 
   app:
     image: alpine
     command: [/bin/echo, "Listen my log!"]
     depends_on:
-      - fluentbit  # Ensures Fluent Bit starts before the app
+      - fluentbit
     logging:
       driver: fluentd
       options:
-        fluentd-address: "fluentbit:24224"  # Use service name, not 127.0.0.1
+        fluentd-address: "fluentbit:24224"  # Fluent Bit hostname inside network
         tag: "app"
+    networks:
+      - fluentnet
+
+networks:
+  fluentnet:
+    driver: bridge

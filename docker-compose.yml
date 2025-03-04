@@ -6,7 +6,7 @@ services:
       - "24224:24224"
       - "24224:24224/udp"
     networks:
-      fluentnet
+      - fluentnet  # <-- Now it's a list
     restart: always  
 
   app:
@@ -15,9 +15,12 @@ services:
     depends_on:
       - fluentbit
     logging:
-      driver: "host"  # <-- Using host driver temporarily
+      driver: fluentd
+      options:
+        fluentd-address: "fluentbit:24224"  # <-- Using the alias
+        tag: "app"
     networks:
-      - fluentnet
+      - fluentnet  # <-- Now it's a list
 
 networks:
   fluentnet:

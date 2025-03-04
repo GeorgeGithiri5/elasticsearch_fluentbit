@@ -16,7 +16,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: "localhost:24224"  # <-- Use localhost to avoid IPv6 binding
+        fluentd-address: "localhost"  # <-- Use localhost to avoid IPv6 binding
         tag: "app"
     network_mode: host  # <-- Use host network mode for app
 

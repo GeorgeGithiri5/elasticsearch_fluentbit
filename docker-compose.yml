@@ -1,31 +1,20 @@
-version: "3.8"
-
 services:
   fluentbit:
     image: fluent/fluent-bit:1.7
     ports:
       - "24224:24224"
       - "24224:24224/udp"
-    volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-    environment:
-      - HOSTNAME=fluentbit
     networks:
-      fluentnet:
-        aliases:
-          - fluentbit  # Ensures this hostname is always available
-    restart: always
+      - fluentnet
+    restart: always  # Ensures it stays up
 
   app:
-    image: alpine
-    command: [/bin/echo, "Listen my log!"]
     depends_on:
       - fluentbit
     logging:
       driver: fluentd
       options:
-        fluentd-address: "fluentbit:24224"  # Fluent Bit hostname inside network
+        fluentd-address: "fluentbit:24224"
         tag: "app"
     networks:
       - fluentnet

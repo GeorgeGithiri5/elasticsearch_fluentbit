@@ -1,20 +1,25 @@
 version: "3.8"
-services:
-  app:
-    image: alpine
-    command: [/bin/echo, "Listen my log!"]
-    depends_on:
-      - fluentbit
-    logging:
-      driver: fluentd
-      options:
-        tag: 'app'
 
+services:
   fluentbit:
     image: fluent/fluent-bit:1.7
     ports:
       - "24224:24224"
       - "24224:24224/udp"
     volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-    hostname: 'app'
+    environment:
+      - HOSTNAME=fluentbit
+    restart: always  # Ensures Fluent Bit restarts if it crashes
+
+  app:
+    image: alpine
+    command: [/bin/echo, "Listen my log!"]
+    depends_on:
+      - fluentbit  # Ensures Fluent Bit starts before the app
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "fluentbit:24224"  # Use service name, not 127.0.0.1
+        tag: "app"

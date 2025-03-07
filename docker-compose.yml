@@ -2,6 +2,7 @@ services:
   fluentbit:
     image: fluent/fluent-bit:1.7
     user: root
+    privileged: true
     ports:
       - "24224:24224"
       - "24224:24224/udp"

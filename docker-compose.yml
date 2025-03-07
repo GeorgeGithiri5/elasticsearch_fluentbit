@@ -9,7 +9,7 @@ services:
       - fluentnet
     restart: always
     volumes:
-      - ./fluentbit.conf:/fluent-bit/etc/fluent-bit.conf  # Mount a custom config file
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf  # Mount a custom config file
       - fluentbit_logs:/var/log/fluentbit  # Persistent log storage
 
   app:

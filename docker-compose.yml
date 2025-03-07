@@ -7,7 +7,10 @@ services:
       - "24224:24224/udp"
     networks:
       - fluentnet
-    restart: always  
+    restart: always
+    volumes:
+      - ./fluentbit.conf:/fluent-bit/etc/fluent-bit.conf  # Mount a custom config file
+      - fluentbit_logs:/var/log/fluentbit  # Persistent log storage
 
   app:
     image: alpine
@@ -25,3 +28,6 @@ services:
 networks:
   fluentnet:
     driver: bridge
+
+volumes:
+  fluentbit_logs:  # Define the named volume

@@ -12,7 +12,7 @@ services:
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - fluentbit_logs:/var/log/fluentbit
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:2020/api/v1/health"]  # Health check
+      test: ["CMD", "curl", "-f", "http://localhost:2020/api/v1/health"]
       interval: 5s
       timeout: 2s
       retries: 10

@@ -11,18 +11,12 @@ services:
     volumes:
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - fluentbit_logs:/var/log/fluentbit
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:2020/api/v1/health"]
-      interval: 5s
-      timeout: 2s
-      retries: 10
 
   app:
     image: alpine
     command: ["/bin/echo", "Listen my log!"]
     depends_on:
-      fluentbit:
-        condition: service_healthy  # Wait for Fluent Bit to be healthy
+      - fluentbit
     logging:
       driver: fluentd
       options:

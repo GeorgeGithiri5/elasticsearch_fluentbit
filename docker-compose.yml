@@ -12,6 +12,7 @@ services:
     volumes:
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - fluentbit_logs:/var/log/fluentbit
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
   app:
     image: alpine
     command: ["/bin/echo", "Listen my log!"]
